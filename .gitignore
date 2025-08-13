@@ -1,8 +1,5 @@
 # Node modules
 node_modules/
-# 自动生成的类型声明文件
-src/components.d.ts
-src/auto-import.d.ts
 # Logs
 logs
 *.log
@@ -63,3 +60,5 @@ npm-debug.log*
 
 # Others
 *.pem
+auto-imports.d.ts
+components.d.ts
