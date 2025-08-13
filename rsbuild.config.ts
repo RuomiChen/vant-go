@@ -18,6 +18,7 @@ export default defineConfig({
       plugins: [
         AutoImport({
           resolvers: [VantResolver()],
+          imports: ['vue', 'vue-router'], 
         }),
         Components({
           resolvers: [VantResolver()],
