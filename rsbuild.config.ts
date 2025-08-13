@@ -6,6 +6,7 @@ import path from "path";
 import AutoImport from "unplugin-auto-import/rspack";
 import Components from "unplugin-vue-components/rspack";
 
+
 export default defineConfig({
   plugins: [pluginVue(), pluginLess()],
   tools: {
