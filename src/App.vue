@@ -24,7 +24,7 @@ const route = useRoute();
 const active = ref(0);
 const tabbar = ref([
   { title: '首页', icon: 'home-o', link: '/' },
-  { title: '计划', icon: 'search' },
+  { title: '计划', icon: 'fire-o' },
   { title: '群组', icon: 'friends-o' ,link:'/group'},
   { title: '设置', icon: 'setting-o', link: '/settings' },
 ]);

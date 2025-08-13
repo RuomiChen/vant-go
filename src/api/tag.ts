@@ -7,3 +7,4 @@ export function tagListApi(): Promise<{list:TagList}>  {
   return request.get('/api/v1/tag')
 }
 
+
