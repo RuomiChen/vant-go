@@ -12,6 +12,10 @@ const routes: RouteRecordRaw[] = [
     path: '/auth',
     name: 'Auth',
     component: Auth,
+  },{
+    path: '/settings',
+    name: 'Settings',
+    component: Auth,
   },
 ]
 
