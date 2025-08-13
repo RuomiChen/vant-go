@@ -94,15 +94,15 @@
         <!-- 用户信息头部 -->
         <div class="bg-white px-4 py-6">
             <div class="flex items-center space-x-4">
-                <van-image round width="60" height="60" :src="userInfo.avatar" fit="cover"
+                <van-image round width="60" height="60"  :src="userInfo.avatar" fit="cover"
                     class="border-2 border-gray-200" />
                 <div class="flex-1">
-                    <h2 class="text-lg font-semibold text-gray-900">{{ userInfo.nickname }}</h2>
-                    <p class="text-sm text-gray-500 mt-1">ID: {{ userInfo.userId }}</p>
+                    <h2 class="text-lg font-semibold text-gray-900">{{ userInfo.name }}</h2>
+                    <p class="text-sm text-gray-500 mt-1">ID: {{ userInfo.id }}</p>
                     <div class="flex items-center space-x-4 mt-2">
-                        <span class="text-xs text-gray-600">关注 {{ userInfo.following }}</span>
-                        <span class="text-xs text-gray-600">粉丝 {{ userInfo.followers }}</span>
-                        <span class="text-xs text-gray-600">获赞 {{ userInfo.likes }}</span>
+                        <span class="text-xs text-gray-600">关注 {{ userInfo.following ||0}}</span>
+                        <span class="text-xs text-gray-600">粉丝 {{ userInfo.followers ||0}}</span>
+                        <span class="text-xs text-gray-600">获赞 {{ userInfo.likes ||0}}</span>
                     </div>
                 </div>
                 <van-icon name="arrow" class="text-gray-400" />
@@ -185,7 +185,6 @@ import {
     showToast
 } from 'vant'
 import { reactive, ref } from 'vue'
-
 
 
 // 密码表单类型定义
@@ -291,7 +290,9 @@ const handleLogout = async () => {
 
         // 模拟退出登录
         showSuccessToast('已退出登录')
+
         // 这里可以跳转到登录页面
+        userStore.logout()
     } catch {
         // 用户取消
     }

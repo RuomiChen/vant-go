@@ -1,9 +1,11 @@
+import { BaseEntity } from "."
+
 // 用户信息类型定义
-export interface UserInfo {
-  userId: string
-  nickname: string
+export interface UserInfo extends BaseEntity{
+  name: string
+  email: string
   avatar: string
-  following: number
-  followers: number
-  likes: number
+  following:Number
+  followers:Number
+  likes:Number
 }

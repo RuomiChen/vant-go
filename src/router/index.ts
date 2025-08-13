@@ -1,6 +1,7 @@
 import Auth from '@/views/Auth.vue'
+import Group from '@/views/Group.vue'
 import Home from '@/views/Home.vue'
-import Info from '@/views/Info.vue'
+import Settings from '@/views/Settings.vue'
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
@@ -14,9 +15,13 @@ const routes: RouteRecordRaw[] = [
     name: 'Auth',
     component: Auth,
   },{
-    path: '/info',
-    name: 'Info',
-    component: Info,
+    path: '/group',
+    name: 'Group',
+    component: Group,
+  },{
+    path: '/settings',
+    name: 'Settings',
+    component: Settings,
   },
 ]
 
