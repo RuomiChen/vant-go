@@ -25,6 +25,7 @@
     --van-swipe-indicator-active-background: #fff;
     /* search content */
     --van-search-content-background:rgb(237, 237, 239);
+    /* to top */
 }
 
 .van-swipe__indicators {

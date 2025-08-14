@@ -1,13 +1,13 @@
 <template>
 
   <RouterView />
-
-  <!-- 如果不是 auth 路由才显示 TabBar -->
-  <van-tabbar v-if="!isAuthRoute" v-model="active" active-color="#ee0a24" route>
-    <van-tabbar-item v-for="(item, index) in tabbar" :key="index" :icon="item.icon" :to="item.link">
-      {{ item.title }}
-    </van-tabbar-item>
-  </van-tabbar>
+    <van-back-top right="8vw" bottom="8vh" :offset="10" />
+    <!-- 如果不是 auth 路由才显示 TabBar -->
+    <van-tabbar v-if="!isAuthRoute" v-model="active" active-color="#ee0a24" route>
+      <van-tabbar-item v-for="(item, index) in tabbar" :key="index" :icon="item.icon" :to="item.link">
+        {{ item.title }}
+      </van-tabbar-item>
+    </van-tabbar>
 </template>
 
 <script setup lang="ts">
@@ -28,4 +28,8 @@ const tabbar = ref([
 const isAuthRoute = computed(() => route.path.startsWith('/auth') || !tabbar.value.map(item => item.link).includes(route.path));
 </script>
 
-<style></style>
+<style>
+.van-back-top {
+  --van-back-top-background: red;
+}
+</style>
