@@ -62,6 +62,7 @@ const onSubmit = async () => {
         // 登录成功后可路由跳转
       } catch (err) {
         console.error('登录失败', err);
+        return
       }
       showToast('登录成功')
       router.push('/')
