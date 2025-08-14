@@ -1,6 +1,6 @@
 <template>
     <Header />
-    <Tabs :data="tabsData" />
+  <Tabs :data="tabsData" />
 </template>
 
 <script lang="ts" setup>
@@ -26,14 +26,14 @@ const topNewsData = ref<NewsList>([])
 const getTabsData = async () => {
   const { list } = await tagListApi()
   tabsData.value = list
-  console.log('tavs',tabsData.value);
-  
+  console.log('tavs', tabsData.value);
+
 }
 
 const init = async () => {
   getTabsData()
 }
-const getTopNews = async () =>{
+const getTopNews = async () => {
   topNewsData.value = await topNewsListApi()
 
 }

@@ -1,5 +1,5 @@
 <template>
-    <router-link :to="{ name: 'NewsDetail', params: { id: item.id } }" class="bg-white p-4 flex justify-between">
+    <router-link :to="{ name: 'NewsDetail', params: { id: item.id } }" class="bg-white p-4 flex justify-between gap-4">
         <div class="flex-1 flex flex-col justify-between">
             <div class=" font-semibold line-clamp-2">{{ item.title }}</div>
             <div class="text-grey">423423</div>
