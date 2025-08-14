@@ -1,5 +1,5 @@
 <template>
-  <van-tabs v-model:active="active" swipeable color="red">
+  <van-tabs sticky v-model:active="active" swipeable color="red">
     <van-tab v-for="(item, index) in data" :title="item.name" :key="item.id">
       <List :data="newsMap[item.id] || []" :index="index" />
     </van-tab>
