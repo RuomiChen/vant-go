@@ -1,6 +1,7 @@
 <template>
     <Header />
   <Tabs :data="tabsData" />
+   <!-- <QuillEditor theme="snow" /> -->
 </template>
 
 <script lang="ts" setup>
