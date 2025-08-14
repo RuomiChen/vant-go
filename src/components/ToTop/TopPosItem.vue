@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center gap-2">
         <van-icon name="label" color="red" size="18"/>
-        <div>{{item.title}}</div>
+        <div class="line-clamp-1">{{item.title}}</div>
     </div>
 </template>
 

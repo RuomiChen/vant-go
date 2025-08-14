@@ -1,19 +1,12 @@
 <template>
-  <div class="flex flex-col gap-8">
-    <Swiper :data="topNewsData" />
+    <Header />
     <Tabs :data="tabsData" />
-    <!-- <van-tabs class="px-8" v-model:active="active" swipeable color="red">
-      <van-tab v-for="item in tabs" :title="item.title">
-        <List :data="data" />
-      </van-tab>
-    </van-tabs> -->
-
-  </div>
 </template>
 
 <script lang="ts" setup>
 import { topNewsListApi } from '@/api/news'
 import { tagListApi } from '@/api/tag'
+import Header from '@/components/Header/Header.vue'
 import Tabs from '@/components/Tabs.vue'
 import { NewsList } from '@/types/news'
 import { TagList } from '@/types/tag'
@@ -33,6 +26,8 @@ const topNewsData = ref<NewsList>([])
 const getTabsData = async () => {
   const { list } = await tagListApi()
   tabsData.value = list
+  console.log('tavs',tabsData.value);
+  
 }
 
 const init = async () => {

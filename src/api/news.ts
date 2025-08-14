@@ -1,4 +1,4 @@
-import { NewsList } from '@/types/news';
+import { News, NewsList } from '@/types/news';
 import request from '@/utils/request';
 
 
@@ -11,4 +11,11 @@ export function topNewsListApi(): Promise<NewsList>  {
 export function getNewsByTag(tagId: number, page = 1, size = 10): Promise<NewsList>  {
   return request.get(`/api/v1/news/tags/${tagId}`,{params:{page,size}})
 }
+
+//根据id获取新闻
+export function getNewsById(id: number): Promise<News>  {
+  return request.get(`/api/v1/news/${id}`)
+}
+
+
 

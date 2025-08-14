@@ -1,4 +1,38 @@
 @import 'tailwindcss';
-#root{
+
+
+#root::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari/Opera */
+}
+
+#root {
+    overflow-y: scroll;
+    /* 开启滚动 */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+
     height: 100vh;
+
+    /* 导航栏样式覆盖 */
+    --van-nav-bar-arrow-size: 22px;
+    --van-nav-bar-icon-color: black;
+
+    /* swiper */
+    --van-swipe-indicator-active-background: #fff;
+    /* search content */
+    --van-search-content-background:rgb(237, 237, 239);
+}
+
+.van-swipe__indicators {
+    left: 2.5rem;
+}
+
+/* 当前 */
+.van-swipe__indicator--active {
+    width: 20px;
+    border-radius: 0.4rem;
 }

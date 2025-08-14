@@ -10,8 +10,8 @@
 <script setup lang="ts">
 import { NewsList } from '@/types/news';
 import { PropType, ref } from 'vue';
-import FirstArea from './FirstArea/FirstArea.vue';
-import ListItem from './List/ListItem.vue';
+import FirstArea from '../FirstArea/FirstArea.vue';
+import ListItem from './ListItem.vue';
 
 defineProps({
   index: {

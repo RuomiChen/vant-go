@@ -1,8 +1,10 @@
 import axios, { AxiosRequestHeaders } from 'axios'
 import { showToast } from 'vant'
 
+export const SERVER_URL = 'http://127.0.0.1:3002'
+
 const request = axios.create({
-    baseURL: 'http://127.0.0.1:3002',
+    baseURL: SERVER_URL,
     timeout: 10000
 })
 
