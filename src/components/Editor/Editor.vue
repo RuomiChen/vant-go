@@ -10,10 +10,8 @@
 
 <script setup lang="ts">
 import { QuillEditor } from "@vueup/vue-quill";
-import { ref } from "vue";
 
-// 富文本内容
-const content = ref<string>("");
-
+// 使用 defineModel 替代 props + emits
+const content = defineModel<string>("content", { default: "" })
 
 </script>

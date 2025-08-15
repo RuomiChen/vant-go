@@ -1,13 +1,11 @@
 <template>
     <Header />
   <Tabs :data="tabsData" />
-  <Editor/>
 </template>
 
 <script lang="ts" setup>
 import { topNewsListApi } from '@/api/news'
 import { tagListApi } from '@/api/tag'
-import Editor from '@/components/Editor/Editor.vue'
 import Header from '@/components/Header/Header.vue'
 import Tabs from '@/components/Tabs.vue'
 import { NewsList } from '@/types/news'

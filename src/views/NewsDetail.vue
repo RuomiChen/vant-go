@@ -5,13 +5,19 @@ import ShareSection from '@/components/ShareSection/ShareSection.vue';
 import { INavbar } from '@/types/navbar';
 import { News } from '@/types/news';
 import DOMPurify from 'dompurify';
+import { showToast } from 'vant';
 import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{ id: string }>() // 通过 props 接收路由参数
 
+const showShare = ref(false);
+
+
 const navbar = ref<INavbar>({
     title: '详情',
-    rightIcon: 'share'
+    leftIcon: 'arrow-left',
+    rightIcon: 'share',
+    rightAction: () => showShare.value = true
 })
 
 const data = ref<News | null>(null)
@@ -19,6 +25,19 @@ const data = ref<News | null>(null)
 const getData = async () => {
     data.value = await getNewsById(Number(props.id))
 }
+
+const options = [
+    { name: 'WeChat', icon: 'wechat' },
+    { name: 'Weibo', icon: 'weibo' },
+    { name: 'Link', icon: 'link' },
+    { name: 'Poster', icon: 'poster' },
+    { name: 'Qrcode', icon: 'qrcode' },
+];
+
+const onSelect = (option:any) => {
+    showToast(option.name);
+    showShare.value = false;
+};
 
 const safeContent = computed(() => DOMPurify.sanitize(data.value?.content!))
 
@@ -47,4 +66,6 @@ onMounted(() => {
         <div class=" text-[13px] text-gray-400 self-end">阅读量：{{ data?.views }}</div>
         <ShareSection />
     </div>
+    <van-share-sheet v-model:show="showShare" title="Share" :options="options" @select="onSelect" />
+
 </template>

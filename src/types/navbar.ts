@@ -1,4 +1,9 @@
 export interface INavbar {
-    title: string
-    rightIcon: string
+    title?: string
+    leftText?:string
+    leftIcon?: string
+    rightIcon?: string
+    rightText?:string
+    rightAction?:()=>void
+    leftAction?:()=>void
 }
