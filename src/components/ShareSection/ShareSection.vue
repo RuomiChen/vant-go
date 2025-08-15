@@ -17,11 +17,11 @@ import ShareItem from './ShareItem.vue';
 const data = ref<ShareList>([
     {
         name:'微信',
-        image:'',
+        icon:'wechat',
     },
     {
         name:'朋友圈',
-        image:'',
+        icon:'wechat-moments',
     }
 ])
 </script>
