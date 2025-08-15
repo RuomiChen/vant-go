@@ -64,4 +64,23 @@ router.beforeEach((to, _from, next) => {
   }
 })
 
+router.afterEach((to, from) => {
+  logPageView({
+    from: from.fullPath,
+    to: to.fullPath,
+    time: Date.now().toString(),
+  })
+})
+
+/**
+ * 埋点
+ * @param payload 
+ */
+function logPageView(payload: { from: string; to: string; time: string }) {
+  if(payload.to.startsWith("/news/"))
+  console.log("埋点记录：", payload)
+  // 可以本地存储 / 上报接口
+  // fetch("/api/track", { method: "POST", body: JSON.stringify(payload) })
+}
+
 export default router
