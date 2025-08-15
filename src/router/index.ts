@@ -2,6 +2,7 @@ import { useTokenStore } from '@/stores/token'
 import Auth from '@/views/Auth.vue'
 import Group from '@/views/Group.vue'
 import Home from '@/views/Home.vue'
+import Info from '@/views/Info.vue'
 import NewsDetail from '@/views/NewsDetail.vue'
 import Settings from '@/views/Settings.vue'
 import Write from '@/views/Write.vue'
@@ -36,6 +37,11 @@ const routes: RouteRecordRaw[] = [
     name: 'Write',
     component: Write,
     meta: { requiresAuth: true }, // 👈 需要登录
+  }, {
+    path: '/info',
+    name: 'Info',
+    component: Info,
+    meta: { requiresAuth: true }, // 👈 需要登录
   }
 ]
 
@@ -51,7 +57,7 @@ router.beforeEach((to, _from, next) => {
 
   if (to.meta.requiresAuth && !tokenStore.token) {
     // 未登录，跳到登录页
-    showToast({type:'fail',message:'请先登录'})
+    showToast({ type: 'fail', message: '请先登录' })
     next({ path: "/auth", query: { redirect: to.fullPath } })
   } else {
     next()
