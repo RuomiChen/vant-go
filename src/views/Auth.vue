@@ -16,7 +16,7 @@
       </van-cell-group>
 
       <div style="margin: 16px;">
-        <van-button round block type="primary" native-type="submit">
+        <van-button round block type="danger" native-type="submit">
           {{ isLogin ? '登录' : '注册' }}
         </van-button>
       </div>

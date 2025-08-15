@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
 
+.tip-text{
+    @apply text-[14px] text-gray-400
+}
+
 #root::-webkit-scrollbar {
     display: none;
     /* Chrome/Safari/Opera */
@@ -25,7 +29,11 @@
     --van-swipe-indicator-active-background: #fff;
     /* search content */
     --van-search-content-background:rgb(237, 237, 239);
-    /* to top */
+    /* search */
+    --van-search-background:#fff;
+    --van-search-content-background:#fff;
+    --van-search-label-color:#fff;
+    --van-search-action-text-color:#fff;
 }
 
 .van-swipe__indicators {

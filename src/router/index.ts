@@ -1,13 +1,17 @@
+import { recordApi } from '@/api/tracking'
 import { useTokenStore } from '@/stores/token'
 import Auth from '@/views/Auth.vue'
+import ChangePwd from '@/views/ChangePwd.vue'
 import Group from '@/views/Group.vue'
+import History from '@/views/History.vue'
 import Home from '@/views/Home.vue'
 import Info from '@/views/Info.vue'
 import NewsDetail from '@/views/NewsDetail.vue'
+import Search from '@/views/Search.vue'
 import Settings from '@/views/Settings.vue'
 import Write from '@/views/Write.vue'
 import { showToast } from 'vant'
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteLocationNormalizedLoadedGeneric, RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -41,7 +45,22 @@ const routes: RouteRecordRaw[] = [
     path: '/info',
     name: 'Info',
     component: Info,
-    meta: { requiresAuth: true }, // 👈 需要登录
+    meta: { requiresAuth: true },
+  }, {
+    path: '/history',
+    name: 'History',
+    component: History,
+    meta: { requiresAuth: true },
+  }, {
+    path: '/search',
+    name: 'Search',
+    component: Search,
+  }, {
+    path: '/changePwd',
+    name: 'ChangePwd',
+    component: ChangePwd,
+    meta: { requiresAuth: true },
+
   }
 ]
 
@@ -66,9 +85,8 @@ router.beforeEach((to, _from, next) => {
 
 router.afterEach((to, from) => {
   logPageView({
-    from: from.fullPath,
-    to: to.fullPath,
-    time: Date.now().toString(),
+    from: from,
+    to: to,
   })
 })
 
@@ -76,9 +94,18 @@ router.afterEach((to, from) => {
  * 埋点
  * @param payload 
  */
-function logPageView(payload: { from: string; to: string; time: string }) {
-  if(payload.to.startsWith("/news/"))
-  console.log("埋点记录：", payload)
+async function logPageView({ from, to }: { from: RouteLocationNormalizedLoadedGeneric, to: RouteLocationNormalizedLoadedGeneric }) {
+  let newsId: string | undefined
+
+  if (to.name === 'NewsDetail') {
+    newsId = to.params.id as string // ✅ 通过 params 获取 id
+    await recordApi({
+      from: from.fullPath,
+      to: to.fullPath,
+      action: 'news view',
+      extra: newsId ? JSON.stringify({ id: newsId }) : undefined
+    })
+  }
   // 可以本地存储 / 上报接口
   // fetch("/api/track", { method: "POST", body: JSON.stringify(payload) })
 }

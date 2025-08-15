@@ -49,6 +49,7 @@
 
 <script setup lang="ts">
 import SettingList from '@/components/Settings/SettingList.vue'
+import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { SettingsList } from '@/types/settings'
 import { UserInfo } from '@/types/user'
@@ -71,8 +72,9 @@ const settingsList = reactive<SettingsList>([
             }, {
                 left: {
                     label: '浏览历史',
-                    icon: 'clock-o'
-                }
+                    icon: 'clock-o',
+                },
+                action:()=>router.push('/history')
             }, {
                 left: {
                     label: '我的评论',
@@ -89,7 +91,7 @@ const settingsList = reactive<SettingsList>([
                     label: "修改密码",
                     icon: "lock"
                 },
-                action: () => (showPasswordDialog.value = true)
+                action: () => router.push({name:'ChangePwd'})
             },
             {
                 left: {
