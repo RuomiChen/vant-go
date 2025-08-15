@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-1 flex items-center justify-center gap-6">
-    <van-icon :name="item.icon" />
+  <div class="flex-1 flex items-center justify-center gap-2">
+    <van-icon size="36" :name="item.icon" />
     <div>{{ item.name }}</div>
   </div>
 </template>
@@ -14,7 +14,7 @@ interface IShareItem {
   icon: string
 }
 
-const props = defineProps({
+defineProps({
   item: {
     type: Object as PropType<IShareItem>,
     default: () => { }
