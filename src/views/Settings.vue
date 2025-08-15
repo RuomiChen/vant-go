@@ -4,7 +4,7 @@
         <div class="flex flex-col gap-2">
 
         <!-- 用户信息头部 -->
-        <div class="bg-white px-4 py-6">
+        <router-link :to="{ name: 'Info'}" class="bg-white px-4 py-6" >
             <div class="flex items-center space-x-4">
                 <van-image round width="60" height="60" :src="userInfo.avatar" fit="cover"
                     class="border-2 border-gray-200" />
@@ -19,7 +19,7 @@
                 </div>
                 <van-icon name="arrow" class="text-gray-400" />
             </div>
-        </div>
+        </router-link>
 
         <!-- 功能菜单 -->
         <SettingList :data="settingsList"  />
