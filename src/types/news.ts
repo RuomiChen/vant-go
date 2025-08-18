@@ -6,6 +6,8 @@ export interface News extends BaseEntity {
   cover: string
   author: string
   views: number
+  is_like:boolean
+  like_count:number
 }
 
 export type NewsList = News[]

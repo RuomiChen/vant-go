@@ -1,3 +1,6 @@
+import { useTokenStore } from "@/stores/token";
+import { useUserStore } from "@/stores/user";
+import { showToast } from "vant";
 import { SERVER_URL } from "./request";
 
 export const getServerUrl = (url: string) => {
@@ -23,4 +26,23 @@ export function formatUTCToHHMM(utcString: string, offset = 8): string {
   const minutes = localTime.getUTCMinutes().toString().padStart(2, '0');
 
   return `${hours}:${minutes}`;
+}
+
+export const copyPath = async (path:string) => {
+  try {
+    await navigator.clipboard.writeText(path)
+    showToast('复制成功')
+  } catch (err) {
+    showToast('复制失败，请手动复制')
+    console.error(err)
+  }
+}
+
+// 清除缓存
+export const clearTemp = () => {
+  localStorage.clear();
+  sessionStorage.clear();
+  useUserStore().clear()
+  useTokenStore().clear()
+  showToast('清除缓存成功')
 }

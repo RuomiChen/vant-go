@@ -1,20 +1,20 @@
 <template>
-    <NoAuth v-if="!userInfo" />
+    <NoAuth v-if="!userStore.user" />
     <div v-else class="min-h-screen bg-gray-50">
         <div class="flex flex-col gap-2">
 
         <!-- 用户信息头部 -->
         <router-link :to="{ name: 'Info'}" class="bg-white px-4 py-6" >
             <div class="flex items-center space-x-4">
-                <van-image round width="60" height="60" :src="userInfo.avatar" fit="cover"
+                <van-image round width="60" height="60" :src="userStore.user.avatar" fit="cover"
                     class="border-2 border-gray-200" />
                 <div class="flex-1">
-                    <h2 class="text-lg font-semibold text-gray-900">{{ userInfo.name }}</h2>
-                    <p class="text-sm text-gray-500 mt-1">ID: {{ userInfo.id }}</p>
+                    <h2 class="text-lg font-semibold text-gray-900">{{ userStore.user.name }}</h2>
+                    <p class="text-sm text-gray-500 mt-1">ID: {{ userStore.user.id }}</p>
                     <div class="flex items-center space-x-4 mt-2">
-                        <span class="text-xs text-gray-600">关注 {{ userInfo.following || 0 }}</span>
-                        <span class="text-xs text-gray-600">粉丝 {{ userInfo.followers || 0 }}</span>
-                        <span class="text-xs text-gray-600">获赞 {{ userInfo.likes || 0 }}</span>
+                        <span class="text-xs text-gray-600">关注 {{ userStore.user.following || 0 }}</span>
+                        <span class="text-xs text-gray-600">粉丝 {{ userStore.user.followers || 0 }}</span>
+                        <span class="text-xs text-gray-600">获赞 {{ userStore.user.likes || 0 }}</span>
                     </div>
                 </div>
                 <van-icon name="arrow" class="text-gray-400" />
@@ -52,7 +52,7 @@ import SettingList from '@/components/Settings/SettingList.vue'
 import router from '@/router'
 import { useUserStore } from '@/stores/user'
 import { SettingsList } from '@/types/settings'
-import { UserInfo } from '@/types/user'
+import { clearTemp } from '@/utils/function'
 import {
     showConfirmDialog,
     showSuccessToast
@@ -121,7 +121,7 @@ const settingsList = reactive<SettingsList>([
             },
             {
                 left: { label: "清除缓存", icon: "delete-o" },
-                action: () => handleClearCache()
+                action: () => clearTemp()
             },
             {
                 left: { label: "关于我们", icon: "info-o" },
@@ -135,8 +135,6 @@ const settingsList = reactive<SettingsList>([
 
 const userStore = useUserStore();
 
-// 用户信息
-const userInfo = reactive<UserInfo>(userStore.user!)
 
 
 

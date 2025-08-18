@@ -96,8 +96,9 @@ router.afterEach((to, from) => {
  */
 async function logPageView({ from, to }: { from: RouteLocationNormalizedLoadedGeneric, to: RouteLocationNormalizedLoadedGeneric }) {
   let newsId: string | undefined
+  const tokenStore = useTokenStore()
 
-  if (to.name === 'NewsDetail') {
+  if (tokenStore.token && to.name === 'NewsDetail') {
     newsId = to.params.id as string // ✅ 通过 params 获取 id
     await recordApi({
       from: from.fullPath,
