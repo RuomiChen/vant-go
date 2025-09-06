@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <van-sticky>
-            <Navbar :item="navbar" />
-            <van-list v-model:loading="loading" :finished="finished" finished-text="Finished" @load="getRecordData">
-                <CollectItem :item="item" v-for="item in list" :key="item.id" />
-            </van-list>
-        </van-sticky>
-    </div>
+    <van-sticky>
+        <Navbar :item="navbar" />
+        <van-list v-model:loading="loading" :finished="finished" finished-text="Finished" @load="getRecordData">
+            <CollectItem :item="item" v-for="item in list" :key="item.id" />
+        </van-list>
+    </van-sticky>
 </template>
 <script lang="ts" setup>
 import { collectListApi } from '@/api/collect';

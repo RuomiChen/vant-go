@@ -1,13 +1,10 @@
 <template>
-    <div>
-        <van-sticky>
-            <Navbar :item="navbar" />
-            <van-list v-model:loading="loading" :finished="finished" finished-text="Finished" @load="getRecordData">
-
-                <HistoryItem :item="item" v-for="item in list" :key="item.to" />
-            </van-list>
-        </van-sticky>
-    </div>
+    <van-sticky>
+        <Navbar :item="navbar" />
+        <van-list v-model:loading="loading" :finished="finished" finished-text="Finished" @load="getRecordData">
+            <HistoryItem :item="item" v-for="item in list" :key="item.to" />
+        </van-list>
+    </van-sticky>
 </template>
 <script lang="ts" setup>
 import { getRecordListApi } from '@/api/tracking';

@@ -5,6 +5,7 @@ import Auth from '@/views/Auth.vue'
 import ChangePwd from '@/views/ChangePwd.vue'
 import Collect from '@/views/Collect.vue'
 import Group from '@/views/Group.vue'
+import GroupDetail from '@/views/GroupDetail.vue'
 import History from '@/views/History.vue'
 import Home from '@/views/Home.vue'
 import Info from '@/views/Info.vue'
@@ -29,6 +30,11 @@ const routes: RouteRecordRaw[] = [
     path: '/group',
     name: 'Group',
     component: Group,
+  }, {
+    path: '/group/:id',
+    name: 'GroupDetail',
+    component: GroupDetail,
+    props: true
   }, {
     path: '/settings',
     name: 'Settings',

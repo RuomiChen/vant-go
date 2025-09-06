@@ -1,8 +1,6 @@
 <template>
-    <van-nav-bar @click-left="onClickLeft" @click-right="item.rightAction" :title="item.title" 
-    :left-text="item.leftText"
-    :right-text="item.rightText"
-    >
+    <van-nav-bar class="py-2" @click-left="onClickLeft" @click-right="item.rightAction" :title="item.title"
+        :left-text="item.leftText" :right-text="item.rightText">
         <template #left v-if="item.leftIcon">
             <van-icon :name="item.leftIcon" />
         </template>
@@ -31,6 +29,7 @@ const onClickLeft = () => history.back();
 .van-nav-bar__left {
     font-size: 22px;
 }
+
 .van-nav-bar__right {
     font-size: 22px;
 }

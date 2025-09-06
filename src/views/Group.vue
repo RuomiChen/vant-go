@@ -1,50 +1,22 @@
 <template>
   <div class="min-h-screen bg-gray-50">
-  <!-- 头部搜索栏 -->
+    <!-- 头部搜索栏 -->
     <div class="bg-white sticky top-0 z-10 shadow-sm">
-      <van-nav-bar title="群组" left-arrow @click-left="goBack">
-        <template #right>
-          <!-- 将加号图标改成更多选项图标，点击显示选项菜单 -->
-          <van-icon name="ellipsis" size="18" @click="showOptionsMenu = true" />
-        </template>
-      </van-nav-bar>
-      
+      <Navbar :item="navbar" />
       <div class="p-4">
-        <van-search
-          v-model="searchValue"
-          placeholder="搜索群组"
-          @search="onSearch"
-          @clear="onClear"
-        />
+        <van-search v-model="searchValue" placeholder="搜索群组" @search="onSearch" @clear="onClear" />
       </div>
     </div>
-
     <!-- 群组列表 -->
     <div class="py-4">
       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
-        <van-list
-          v-model:loading="loading"
-          :finished="finished"
-          finished-text="没有更多了"
-          @load="onLoad"
-        >
+        <van-list v-model:loading="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
           <div v-for="group in filteredGroups" :key="group.id" class="mb-3">
             <van-cell-group inset>
-              <van-cell
-                :title="group.name"
-                :label="`${group.memberCount}人 · ${group.description}`"
-                is-link
-                @click="enterGroup(group)"
-              >
+              <van-cell :title="group.name" :label="`${group.memberCount}人 · ${group.description}`" is-link
+                @click="enterGroup(group.id)">
                 <template #icon>
-                  <van-image
-                    :src="group.avatar"
-                    width="40"
-                    height="40"
-                    round
-                    class="mr-3"
-                    fit="cover"
-                  >
+                  <van-image :src="group.avatar" width="40" height="40" round class="mr-3" fit="cover">
                     <template #error>
                       <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                         <van-icon name="friends" size="20" color="#999" />
@@ -52,22 +24,13 @@
                     </template>
                   </van-image>
                 </template>
-                
+
                 <template #right-icon>
                   <div class="flex items-center space-x-2">
-                    <van-tag 
-                      v-if="group.isOwner" 
-                      type="primary" 
-                      size="medium"
-
-                    >
+                    <van-tag v-if="group.owner_id == user?.id" type="primary" size="medium">
                       群主
                     </van-tag>
-                    <van-tag 
-                      v-else-if="group.isAdmin" 
-                      type="success" 
-                      size="medium"
-                    >
+                    <van-tag v-else-if="group.isAdmin" type="success" size="medium">
                       管理员
                     </van-tag>
                     <van-icon name="arrow" />
@@ -80,35 +43,15 @@
       </van-pull-refresh>
     </div>
 
- <!-- 添加右上角选项菜单 -->
-    <van-action-sheet
-      v-model:show="showOptionsMenu"
-      :actions="optionsMenuActions"
-      cancel-text="取消"
-      @select="onOptionsSelect"
-    />
+    <!-- 添加右上角选项菜单 -->
+    <van-action-sheet v-model:show="showOptionsMenu" :actions="optionsMenuActions" cancel-text="取消"
+      @select="onOptionsSelect" />
 
     <!-- 创建群组弹窗 -->
-    <van-dialog
-      v-model:show="showCreateDialog"
-      title="创建群组"
-      show-cancel-button
-      @confirm="createGroup"
-    >
+    <van-dialog v-model:show="showCreateDialog" title="创建群组" show-cancel-button @confirm="createGroup">
       <div class="p-4 space-y-4">
-        <van-field
-          v-model="newGroup.name"
-          label="群组名称"
-          placeholder="请输入群组名称"
-          required
-        />
-        <van-field
-          v-model="newGroup.description"
-          label="群组描述"
-          placeholder="请输入群组描述"
-          type="textarea"
-          rows="3"
-        />
+        <van-field v-model="newGroup.name" label="群组名称" placeholder="请输入群组名称" required />
+        <van-field v-model="newGroup.description" label="群组描述" placeholder="请输入群组描述" type="textarea" rows="3" />
         <van-field label="群组类型">
           <template #input>
             <van-radio-group v-model="newGroup.type" direction="horizontal">
@@ -121,19 +64,9 @@
     </van-dialog>
 
     <!-- 添加加入群组弹窗 -->
-    <van-dialog
-      v-model:show="showJoinDialog"
-      title="加入群组"
-      show-cancel-button
-      @confirm="joinGroupByCode"
-    >
+    <van-dialog v-model:show="showJoinDialog" title="加入群组" show-cancel-button @confirm="joinGroupByCode">
       <div class="p-4 space-y-4">
-        <van-field
-          v-model="joinGroupCode"
-          label="群组邀请码"
-          placeholder="请输入群组邀请码或ID"
-          required
-        />
+        <van-field v-model="joinGroupCode" label="群组邀请码" placeholder="请输入群组邀请码或ID" required />
         <div class="text-sm text-gray-500">
           <p>• 输入6位邀请码快速加入</p>
           <p>• 或输入完整的群组ID</p>
@@ -142,32 +75,30 @@
     </van-dialog>
 
     <!-- 群组操作弹出层 -->
-    <van-action-sheet
-      v-model:show="showActionSheet"
-      :actions="actionSheetActions"
-      cancel-text="取消"
-      @select="onActionSelect"
-    />
+    <van-action-sheet v-model:show="showActionSheet" :actions="actionSheetActions" cancel-text="取消"
+      @select="onActionSelect" />
 
 
     <!-- 群组操作弹出层 -->
-    <van-action-sheet
-      v-model:show="showActionSheet"
-      :actions="actionSheetActions"
-      cancel-text="取消"
-      @select="onActionSelect"
-    />
+    <van-action-sheet v-model:show="showActionSheet" :actions="actionSheetActions" cancel-text="取消"
+      @select="onActionSelect" />
 
-   
+
   </div>
 </template>
 
 <script setup lang="ts">
+import { createGroupApi, getGroupApi } from '@/api/group'
+import Navbar from '@/components/Navbar/Navbar.vue'
+import router from '@/router'
+import { useUserStore } from '@/stores/user'
+import { CreateGroupRequest, GroupList, IType } from '@/types/group'
+import { INavbar } from '@/types/navbar'
 import {
-    closeToast,
-    showConfirmDialog,
-    showLoadingToast,
-    showToast
+  closeToast,
+  showConfirmDialog,
+  showLoadingToast,
+  showToast
 } from 'vant'
 import { computed, onMounted, ref } from 'vue'
 
@@ -191,7 +122,12 @@ interface NewGroup {
   description: string
   type: 'public' | 'private'
 }
-
+const navbar = ref<INavbar>({
+  title: '群组',
+  leftIcon: 'arrow-left',
+  rightIcon: 'ellipsis',
+  rightAction: () => showOptionsMenu.value = true
+})
 // 响应式数据
 const searchValue = ref('')
 const loading = ref(false)
@@ -204,73 +140,23 @@ const showOptionsMenu = ref(false)
 const showJoinDialog = ref(false)
 const joinGroupCode = ref('')
 
+const userStore = useUserStore()
+const user = computed(() => userStore.user)
+
 // 群组数据
-const groups = ref<Group[]>([
-  {
-    id: '1',
-    name: '前端开发交流群',
-    description: '分享前端技术，讨论最新框架',
-    avatar: '/placeholder.svg?height=80&width=80',
-    memberCount: 128,
-    isOwner: true,
-    isAdmin: false,
-    isMember: true,
-    type: 'public',
-    createdAt: '2024-01-15',
-    lastActivity: '2024-03-15 14:30'
-  },
-  {
-    id: '2',
-    name: 'Vue.js 学习小组',
-    description: 'Vue3 + TypeScript 实战项目',
-    avatar: '/placeholder.svg?height=80&width=80',
-    memberCount: 89,
-    isOwner: false,
-    isAdmin: true,
-    isMember: true,
-    type: 'public',
-    createdAt: '2024-02-01',
-    lastActivity: '2024-03-15 12:15'
-  },
-  {
-    id: '3',
-    name: '设计师联盟',
-    description: 'UI/UX设计经验分享',
-    avatar: '/placeholder.svg?height=80&width=80',
-    memberCount: 256,
-    isOwner: false,
-    isAdmin: false,
-    isMember: true,
-    type: 'private',
-    createdAt: '2024-01-20',
-    lastActivity: '2024-03-15 09:45'
-  },
-  {
-    id: '4',
-    name: '创业者俱乐部',
-    description: '创业经验交流，资源共享',
-    avatar: '/placeholder.svg?height=80&width=80',
-    memberCount: 67,
-    isOwner: false,
-    isAdmin: false,
-    isMember: false,
-    type: 'public',
-    createdAt: '2024-02-10',
-    lastActivity: '2024-03-14 16:20'
-  }
-])
+const groups = ref<GroupList>([])
 
 // 新建群组表单
-const newGroup = ref<NewGroup>({
+const newGroup = ref<CreateGroupRequest>({
   name: '',
   description: '',
-  type: 'public'
+  type: IType.PUBLIC
 })
 
 // 计算属性
 const filteredGroups = computed(() => {
   if (!searchValue.value) return groups.value
-  return groups.value.filter(group => 
+  return groups.value.filter(group =>
     group.name.toLowerCase().includes(searchValue.value.toLowerCase()) ||
     group.description.toLowerCase().includes(searchValue.value.toLowerCase())
   )
@@ -278,13 +164,13 @@ const filteredGroups = computed(() => {
 
 const actionSheetActions = computed(() => {
   if (!selectedGroup.value) return []
-  
+
   const actions = []
-  
+
   if (selectedGroup.value.isMember) {
     actions.push({ name: '查看群信息', value: 'info' })
     actions.push({ name: '群聊天记录', value: 'history' })
-    
+
     if (selectedGroup.value.isOwner) {
       actions.push({ name: '群设置', value: 'settings' })
       actions.push({ name: '解散群组', value: 'dissolve', color: '#ee0a24' })
@@ -294,7 +180,7 @@ const actionSheetActions = computed(() => {
   } else {
     actions.push({ name: '申请加入', value: 'join' })
   }
-  
+
   return actions
 })
 
@@ -338,9 +224,10 @@ const getGroupStatus = (group: Group) => {
   return '未加入'
 }
 
-const enterGroup = (group: Group) => {
-  selectedGroup.value = group
-  showActionSheet.value = true
+const enterGroup = (id: Number) => {
+  // selectedGroup.value = group
+  // showActionSheet.value = true
+  router.push({ name: 'GroupDetail', params: { id } })
 }
 
 const createGroup = async () => {
@@ -348,39 +235,25 @@ const createGroup = async () => {
     showToast('请输入群组名称')
     return
   }
-  
-  const loadingToast = showLoadingToast({
+
+  showLoadingToast({
     message: '创建中...',
     forbidClick: true,
   })
-  
+
   try {
     // 模拟创建群组API调用
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    
-    const group: Group = {
-      id: Date.now().toString(),
-      name: newGroup.value.name,
-      description: newGroup.value.description,
-      avatar: '/placeholder.svg?height=80&width=80',
-      memberCount: 1,
-      isOwner: true,
-      isAdmin: false,
-      isMember: true,
-      type: newGroup.value.type,
-      createdAt: new Date().toISOString().split('T')[0],
-      lastActivity: new Date().toLocaleString()
-    }
-    
-    groups.value.unshift(group)
-    
+    const res = await createGroupApi(newGroup.value)
+
+    groups.value.unshift(res)
+
     // 重置表单
     newGroup.value = {
       name: '',
       description: '',
-      type: 'public'
+      type: IType.PUBLIC
     }
-    
+
     showCreateDialog.value = false
     showToast('群组创建成功')
   } catch (error) {
@@ -392,7 +265,7 @@ const createGroup = async () => {
 
 const onActionSelect = async (action: any) => {
   if (!selectedGroup.value) return
-  
+
   switch (action.value) {
     case 'info':
       showToast('查看群信息')
@@ -413,7 +286,7 @@ const onActionSelect = async (action: any) => {
       await dissolveGroup(selectedGroup.value)
       break
   }
-  
+
   showActionSheet.value = false
 }
 
@@ -423,22 +296,22 @@ const joinGroup = async (group: Group) => {
       title: '加入群组',
       message: `确定要加入"${group.name}"吗？`,
     })
-    
+
     if (confirmed) {
       const loadingToast = showLoadingToast({
         message: '加入中...',
         forbidClick: true,
       })
-      
+
       await new Promise(resolve => setTimeout(resolve, 1500))
-      
+
       // 更新群组状态
       const index = groups.value.findIndex(g => g.id === group.id)
       if (index !== -1) {
         groups.value[index].isMember = true
         groups.value[index].memberCount++
       }
-      
+
       closeToast()
       showToast('加入成功')
     }
@@ -453,15 +326,15 @@ const leaveGroup = async (group: Group) => {
       title: '退出群组',
       message: `确定要退出"${group.name}"吗？`,
     })
-    
+
     if (confirmed) {
       const loadingToast = showLoadingToast({
         message: '退出中...',
         forbidClick: true,
       })
-      
+
       await new Promise(resolve => setTimeout(resolve, 1500))
-      
+
       // 更新群组状态
       const index = groups.value.findIndex(g => g.id === group.id)
       if (index !== -1) {
@@ -469,7 +342,7 @@ const leaveGroup = async (group: Group) => {
         groups.value[index].isAdmin = false
         groups.value[index].memberCount--
       }
-      
+
       closeToast()
       showToast('已退出群组')
     }
@@ -484,21 +357,21 @@ const dissolveGroup = async (group: Group) => {
       title: '解散群组',
       message: `确定要解散"${group.name}"吗？此操作不可恢复！`,
     })
-    
+
     if (confirmed) {
       const loadingToast = showLoadingToast({
         message: '解散中...',
         forbidClick: true,
       })
-      
+
       await new Promise(resolve => setTimeout(resolve, 2000))
-      
+
       // 从列表中移除群组
       const index = groups.value.findIndex(g => g.id === group.id)
       if (index !== -1) {
         groups.value.splice(index, 1)
       }
-      
+
       closeToast()
       showToast('群组已解散')
     }
@@ -509,7 +382,7 @@ const dissolveGroup = async (group: Group) => {
 
 const onOptionsSelect = (action: any) => {
   showOptionsMenu.value = false
-  
+
   switch (action.value) {
     case 'create':
       showCreateDialog.value = true
@@ -525,21 +398,21 @@ const joinGroupByCode = async () => {
     showToast('请输入群组邀请码')
     return
   }
-  
+
   const loadingToast = showLoadingToast({
     message: '查找群组中...',
     forbidClick: true,
   })
-  
+
   try {
     // 模拟通过邀请码查找群组API调用
     await new Promise(resolve => setTimeout(resolve, 2000))
-    
+
     // 模拟找到群组并加入
-    const foundGroup = groups.value.find(g => !g.isMember)
+    // const foundGroup = groups.value.find(g => !g.isMember)
     if (foundGroup) {
-      foundGroup.isMember = true
-      foundGroup.memberCount++
+      // foundGroup.isMember = true
+      // foundGroup.memberCount++
       showToast('加入群组成功')
     } else {
       // 模拟创建一个新的群组（通过邀请码找到的）
@@ -559,7 +432,7 @@ const joinGroupByCode = async () => {
       groups.value.unshift(newGroup)
       showToast('加入群组成功')
     }
-    
+
     // 重置表单
     joinGroupCode.value = ''
     showJoinDialog.value = false
@@ -569,10 +442,15 @@ const joinGroupByCode = async () => {
     closeToast()
   }
 }
+const getGroupList = async () => {
+  const res = await getGroupApi()
+  groups.value = res
 
+}
 onMounted(() => {
   // 组件挂载时的初始化逻辑
   console.log('群组页面已加载')
+  getGroupList()
 })
 </script>
 
