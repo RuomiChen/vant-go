@@ -16,7 +16,7 @@
             </div>
 
             <div class="space-y-4">
-                <van-button type="danger" class="w-full" url="/auth">
+                <van-button type="danger" class="w-full" url="/#/auth">
                     登录
                 </van-button>
             </div>

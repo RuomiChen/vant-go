@@ -25,7 +25,8 @@ const userStore = useUserStore()
 const model = defineModel<boolean>({ default: false }) // 登录表单的开关
 
 const emit = defineEmits<{
-    (e: "login", payload: { username: string; password: string }): void
+    (e: "login", payload: { username: string; password: string }): void,
+    (e: "success"): void,
 }>()
 
 const form = reactive({
@@ -43,5 +44,6 @@ const onSubmit = async () => {
     }
     showToast('登录成功')
     model.value = false
+    emit('success')
 }
 </script>

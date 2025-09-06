@@ -17,5 +17,14 @@ export function getNewsById(id: number): Promise<News>  {
   return request.get(`/api/v1/news/${id}`)
 }
 
+// 喜欢文章
+export function likeNewsApi(id:string): Promise<any>  {
+  return request.post(`/api/v1/news_like/like/${id}`)
+}
+export function collectNewsApi(id:string): Promise<any>  {
+  return request.post(`/api/v1/news_collect/collect/${id}`)
+}
+
+
 
 

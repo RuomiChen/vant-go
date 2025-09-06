@@ -1,7 +1,9 @@
 import { recordApi } from '@/api/tracking'
 import { useTokenStore } from '@/stores/token'
+import AboutUs from '@/views/AboutUs.vue'
 import Auth from '@/views/Auth.vue'
 import ChangePwd from '@/views/ChangePwd.vue'
+import Collect from '@/views/Collect.vue'
 import Group from '@/views/Group.vue'
 import History from '@/views/History.vue'
 import Home from '@/views/Home.vue'
@@ -11,7 +13,7 @@ import Search from '@/views/Search.vue'
 import Settings from '@/views/Settings.vue'
 import Write from '@/views/Write.vue'
 import { showToast } from 'vant'
-import { createRouter, createWebHistory, RouteLocationNormalizedLoadedGeneric, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, RouteLocationNormalizedLoadedGeneric, RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -61,11 +63,19 @@ const routes: RouteRecordRaw[] = [
     component: ChangePwd,
     meta: { requiresAuth: true },
 
+  }, {
+    path: '/aboutUs',
+    name: 'AboutUs',
+    component: AboutUs,
+  }, {
+    path: '/collect',
+    name: 'Collect',
+    component: Collect,
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 })
 

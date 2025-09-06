@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { getNewsById } from '@/api/news';
-import { likeNewsApi } from '@/api/news_like';
+import { collectNewsApi, getNewsById, likeNewsApi } from '@/api/news';
 import CommentArea from '@/components/Comment/CommentArea.vue';
 import AuthDialog from '@/components/Dialog/AuthDialog.vue';
 import Navbar from '@/components/Navbar/Navbar.vue';
@@ -10,7 +9,6 @@ import { INavbar } from '@/types/navbar';
 import { News } from '@/types/news';
 import { copyPath } from '@/utils/function';
 import DOMPurify from 'dompurify';
-import { showToast } from 'vant';
 import { computed, onMounted, ref } from 'vue';
 
 const props = defineProps<{ id: string }>() // 通过 props 接收路由参数
@@ -32,12 +30,12 @@ const getData = async () => {
 }
 
 const options = [
-  { name: '链接',key:'link', icon: 'link' },
+  { name: '链接', key: 'link', icon: 'link' },
 ];
 
 const onSelect = (option: any) => {
-  switch(option.key){
-    case 'link':{
+  switch (option.key) {
+    case 'link': {
       copyPath(location.href)
     }
   }
@@ -68,9 +66,8 @@ const bottomBar = computed(() => [
         showLogin.value = true
         return
       }
-      // 喜欢
+      // 收藏
       const res = await likeNewsApi(props.id)
-      showToast(res)
       if (data.value) {
         if (data.value.is_like) {
           data.value.like_count = (data.value.like_count || 0) - 1
@@ -82,12 +79,22 @@ const bottomBar = computed(() => [
     }
   },
   {
-    count: 2,
-    icon: 'star-o',
-    action: () => {
+    count: data.value?.collect_count,
+    icon: userStore.user && data.value?.is_collect ? 'star' : 'star-o',
+    action: async () => {
       if (!userStore.user) {
         showLogin.value = true
         return
+      }
+      // 喜欢
+      const res = await collectNewsApi(props.id)
+      if (data.value) {
+        if (data.value.is_collect) {
+          data.value.collect_count = (data.value.collect_count || 0) - 1
+        } else {
+          data.value.collect_count = (data.value.collect_count || 0) + 1
+        }
+        data.value.is_collect = !data.value.is_collect
       }
     }
   }
@@ -129,6 +136,6 @@ onMounted(() => {
       </div>
     </div>
   </van-sticky>
-  <van-share-sheet title="分享" v-model:show="showShare"  :options="options" @select="onSelect" />
-  <AuthDialog v-model="showLogin" />
+  <van-share-sheet title="分享" v-model:show="showShare" :options="options" @select="onSelect" />
+  <AuthDialog v-model="showLogin" @success="()=>getData()" />
 </template>

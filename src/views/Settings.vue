@@ -68,7 +68,8 @@ const settingsList = reactive<SettingsList>([
                 left: {
                     label: '我的收藏',
                     icon: 'star-o'
-                }
+                },
+                action:()=>router.push('/collect')
             }, {
                 left: {
                     label: '浏览历史',
@@ -125,7 +126,7 @@ const settingsList = reactive<SettingsList>([
             },
             {
                 left: { label: "关于我们", icon: "info-o" },
-                action: () => handleMenuClick("about")
+                action: () => router.push({name:'AboutUs'})
             }
         ]
     }

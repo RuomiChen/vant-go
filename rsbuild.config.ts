@@ -8,10 +8,17 @@ import Components from "unplugin-vue-components/rspack";
 
 
 export default defineConfig({
+  html: {
+    title: 'Ruomichen News',
+    favicon: './src/assets/website_logo.svg',
+    meta: {
+      description: 'a description of the page',
+    },
+  },
   plugins: [pluginVue(), pluginLess()],
   tools: {
     rspack: {
-       resolve: {
+      resolve: {
         alias: {
           "@": path.resolve(__dirname, "src"), // 让 @ 指向 src
         },
@@ -19,7 +26,7 @@ export default defineConfig({
       plugins: [
         AutoImport({
           resolvers: [VantResolver()],
-          imports: ['vue', 'vue-router'], 
+          imports: ['vue', 'vue-router'],
         }),
         Components({
           resolvers: [VantResolver()],

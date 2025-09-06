@@ -1,6 +1,6 @@
 import { BaseEntity } from "."
 
-export interface News extends BaseEntity {
+export interface INews extends BaseEntity {
   title: string
   content: string
   cover: string
@@ -8,6 +8,8 @@ export interface News extends BaseEntity {
   views: number
   is_like:boolean
   like_count:number
+  collect_count:number
+  is_collect:boolean
 }
 
-export type NewsList = News[]
+export type NewsList = INews[]
