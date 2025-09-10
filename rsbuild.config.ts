@@ -8,6 +8,11 @@ import Components from "unplugin-vue-components/rspack";
 
 
 export default defineConfig({
+   output: {
+    // 请将 <REPO_NAME> 替换为仓库的名称。
+    // 比如 "/my-project/"
+    assetPrefix: '/vant-go/',
+  },
   html: {
     title: 'Ruomichen News',
     favicon: './src/assets/website_logo.svg',
